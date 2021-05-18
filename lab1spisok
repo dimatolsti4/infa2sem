@@ -1,0 +1,35 @@
+#include <iostream>
+
+using namespace std;
+
+typedef struct Node {
+    int value;
+    struct Node *next;
+} Node;
+
+void push_left(Node ** head, int value)
+{
+    Node* new_node;
+    new_node->value = value;
+    new_node->next = *head;
+    *head = new_node;
+}
+
+void clear_list(Node ** head)
+{
+    if (*head == NULL)
+    {
+        return;
+    }
+    Node* last_node;
+    last_node = *head;
+    while (last_node->next != NULL)
+    {
+        Node* prelast_node;
+        prelast_node = last_node;
+        last_node = last_node->next;
+    }
+    prelast_node->next = NULL;
+    free(last_node);
+    clear_list(head);
+}
