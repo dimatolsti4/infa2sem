@@ -94,3 +94,24 @@ void node_remove(Node ** head, int value)
     }
     return;
 }
+
+void replace_all(Node * head, int old_value, int new_value)
+{
+    if (head != NULL)
+    {
+        node* current = head;
+        if (current->value == old_value)
+        {
+            current->vale = new_value;
+        }
+        while (current->next != NULL)
+        {
+            if (current->value == old_value)
+            {
+                current->value = new_value;
+            }
+            current = current->next;
+        }
+    }
+    return;
+}
