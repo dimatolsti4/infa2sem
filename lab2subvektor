@@ -1,0 +1,78 @@
+#include <iostream>
+#include <stdlib.h>
+#include <limits.h>
+#include <assert.h>
+#include <string.h>
+
+using namespace std;
+
+typedef struct subvector {
+    int *mas;
+    unsigned int top;
+    unsigned int capacity;
+} subvector;
+
+bool init(subvector *qv) 
+{ 
+    qv->capacity = 8;
+    qv->top = 0;
+    qv->mas = (int*)malloc(qv->capacity * sizeof(int));
+    
+    return true;
+}
+
+bool push_back(subvector *qv, int d) 
+{
+    if (qv->top == qv->capacity) 
+    {   
+        qv->capacity *= 2;
+        qv->mas = (int*)realloc(qv->mas, qv->capacity * sizeof(int));
+    }
+    qv->mas[qv->top++] = d;
+    
+    return true;
+}
+
+int pop_back(subvector *qv) 
+{
+    assert(qv->top != 0);
+    
+    return qv->mas[--qv->top];
+}
+
+bool resize(subvector *qv, unsigned int new_capacity) 
+{
+    qv->capacity = new_capacity;
+    qv->mas = (int*)realloc(qv->mas, qv->capacity * sizeof(int));
+    
+    return true;
+}
+
+void shrink_to_fit(subvector *qv) 
+{
+    assert(qv != NULL);
+    int* ptr = (int*)malloc(qv->top * sizeof(int));
+    memcpy(ptr, qv->mas, sizeof(int));
+    free(qv->mas);
+    qv->mas = ptr;
+    resize(qv, qv->top);
+    
+    return;
+}
+
+void clear(subvector *qv) 
+{
+    assert(qv != NULL);
+    assert(qv->mas != NULL);
+    qv->mas = (int*)calloc(qv->top, sizeof(int));
+    
+    return;
+}
+
+void destructor(subvector *qv)
+{
+    assert(qv != NULL);
+    init(qv);
+    
+    return;
+}
