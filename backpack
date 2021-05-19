@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+int main()
+{
+    int n, max_w;
+    cin >> n >> max_w;
+
+    int* item_weight = (int*)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++)
+    {
+        cin >> item_weight[i];
+    }
+
+    int* item_price = (int*)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++)
+    {
+        cin >> item_price[i];
+    }
+
+    int* max_price = (int*)calloc(max_w + 1, sizeof(int));
+
+    for (int i = 1; i <= max_w; i++)
+    {
+        int temp_max = -1;
+        for (int j = 0; j < n; j++)
+        {
+            if (item_weight[j] <= i)
+            {
+                temp_max = max(temp_max, (max_price[i - item_weight[j]] + item_price[j]));
+            }
+        }
+        max_price[i] = temp_max;
+    }
+
+    cout << max_price[max_w];
+
+    return 0;
+}
